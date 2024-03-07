@@ -6,10 +6,10 @@ import React from 'react';
 // Componente de React para un elemento individual de la galería
 const GalleryItem = ({ src, title, description, inlineStyles }: any) => {
     return (
-        <div className="w-full p-4">
+        <div className="w-full">
             <div>
                 <img src={src} alt={title} className={`${inlineStyles} w-full`} />
-                <div className="text-center mt-4 flex justify-between items-center">
+                <div className="text-center p-4 mt-4 flex justify-between items-center">
                     <div className='text-left'>
                         <p className="text-2xl text-gray-900">{title}</p>
                         <p className="text-gray-500 text-xl font-family-jost">{description}</p>
@@ -33,12 +33,12 @@ const Gallery = () => {
     ];
 
     return (
-        <div className="mx-auto max-w-6xl py-4">
+        <div className="mx-auto max-w-6xl py-5 lg:pt-0" data-aos="fade-up">
             <div className='w-full text-center'>
-                <h2 className='text-gray-900 text-3xl mb-2'>Descubre nuestras Lámparas</h2>
-                <p className='text-gray-500 text-lg font-family-jost w-[75%] mx-auto leading-7'>Es un hecho conocido que el contenido claro y atractivo en una página captura la atención del lector.<br />Descubre cómo nuestros diseños de lámaparas transforman los espacios.</p>
+                <h2 className='text-gray-900 text-3xl lg:text-4xl mb-2'>Descubre nuestras Lámparas</h2>
+                <p className='text-gray-500 text-lg font-family-jost w-[90%] lg:w-[75%] mx-auto leading-7'>Es un hecho conocido que el contenido claro y atractivo en una página captura la atención del lector.<br />Descubre cómo nuestros diseños de lámaparas transforman los espacios.</p>
             </div>
-            <div className="grid grid-cols-2 gap-4 mt-5">
+            <div className="grid grid-cols-2 gap-4 lg:gap-10 mt-5">
                 {lamps.map((lamp, index) => (
                     <GalleryItem key={index} {...lamp} />
                 ))}

@@ -5,26 +5,26 @@ import { FACEBOOK_URL, INSTAGRAM_URL } from "@/utils/constants/social-media";
 
 const Footer = () => {
     return (
-        <footer className="w-full mx-auto font-family-jost">
-            <div className="max-w-5xl mx-auto flex justify-between pb-10">
-                <div className="mb-4 md:mb-0">
+        <footer className="w-full mx-auto font-family-jost px-4">
+            <div className="max-w-5xl mx-auto flex flex-col lg:flex-row justify-between pb-10">
+                <div className="mb-4 lg:mb-0 w-full">
                     <Link href="/">
-                        <img className="h-20" src={D_PASTEL_LOGOTYPE} alt="D-pastel" />
+                        <img className="h-28 lg:h-24 mx-auto lg:mx-0" src={D_PASTEL_LOGOTYPE} alt="D-pastel" />
                     </Link>
-                    <p className="text-gray-500 leading-5 w-[65%]">La atención al detalle es lo que define nuestros espacios.</p>
+                    <p className="text-gray-500 leading-5 text-center lg:text-left text-xl lg:text-lg">La atención al detalle es lo que<br />define nuestros espacios.</p>
 
-                    <div className="flex gap-4 mt-4">
+                    <div className="flex gap-4 mt-4 w-full justify-center lg:justify-start">
                         <Link href={FACEBOOK_URL}>
-                            <img className="hover-lift h-5" src={FACEBOOK} alt="Icon 2" />
+                            <img className="hover-lift h-6" src={FACEBOOK} alt="Facebook Icon" />
                         </Link>
                         <Link href={INSTAGRAM_URL} target="_blank">
-                            <img className="hover-lift h-5" src={INSTAGRAM} alt="Icon 2" />
+                            <img className="hover-lift h-6" src={INSTAGRAM} alt="Instagram Icon" />
                         </Link>
                     </div>
                 </div>
 
-                <div className="flex w-full justify-end gap-8 lg:flex">
-                    <div className="w-1/2 md:w-auto mr-10">
+                <div className="flex mt-4 lg:mt-0 lg:w-full justify-between w-3/4 mx-auto gap-16 lg:justify-end lg:gap-8">
+                    <div className="md:w-auto lg:mr-10">
                         <p className="text-gray-900 mb-8 text-xl">Enlaces</p>
                         <div className="flex flex-col gap-8 text-gray-500 font-family-jost text-lg">
                             <Link href="/">
@@ -36,7 +36,7 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    <div className="w-1/2 md:w-auto">
+                    <div className="md:w-auto">
                         <p className="text-gray-900 mb-8 text-xl">Contacto</p>
                         <div className="flex flex-col gap-8 text-gray-500 font-family-jost text-lg">
                             <Link href="/">
@@ -53,8 +53,8 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className="mb-8 max-w-5xl mx-auto">
-                <p className="inline-flex flex-col md:flex-row mt-2 items-start md:items-center font-family-jost">
+            <div className="mb-8 max-w-5xl mx-auto text-center">
+                <p className="inline-flex flex-col md:flex-row lg:mt-2 items-center font-family-jost">
                     <span className="font-medium cursor-default">
                         © 1989 - 2024 D-pastel, Iluminando con Estilo.
                     </span>

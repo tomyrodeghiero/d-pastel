@@ -45,25 +45,25 @@ const BiographySection = () => {
     const faqItems = [
         {
             question: 'Why are you a lamp designer?',
-            answer: 'Lorem ipsum dolor sit amet, adipiscing fromAliquam eu sem turpmaximus.'
+            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sem turpis.'
         },
         {
             question: 'How to Easy Successful Projects?',
-            answer: 'Lorem ipsum dolor sit amet, adipiscing Aliquam eu sem vitae turpmaximus.posuere in.'
+            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sem vitae turpis maximus posuere.'
         },
         {
             question: 'International Trade Experience?',
-            answer: 'Lorem ipsum dolor sit amet, adipiscing Aliquam eu sem vitae turpmaximus.posuere in.'
+            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sem vitae turpis maximus posuere.'
         }
     ];
 
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-4xl font-bold mb-6 text-gray-900">Biografía</h1>
-            <p className='font-family-jost text-gray-500 '>
-                Lorem ipsum dolor sit amet, adipiscing Aliquam eu sem vitae turpmaximus.posuere in.Contrary to popular belief.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, njecthumour randomised words which don't look even slightly believable.
+            <p className="text-gray-500">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sem vitae turpis maximus posuere. Contrary to popular belief, there are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable.
                 <br /><br />
-                Embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined but the majority have suffered alteration in some form chunks as necessary.
+                All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.
             </p>
             <div className="bg-white shadow-md rounded-lg p-6">
                 <Accordion items={faqItems} />
