@@ -138,10 +138,10 @@ export default function Navbar() {
     return (
         <nav className="navbar flex justify-between items-center px-40 my-4 bg-white">
             <Link href="/">
-                <Image src={D_PASTEL_LOGOTYPE} alt="Logo" width={80} height={80} />
+                <Image src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" width={80} height={80} />
             </Link>
 
-            <div className="space-x-12 flex font-normal text-xl items-center">
+            <div className="space-x-12 flex font-normal text-xl items-center" data-aos="fade-left">
                 <Link href="/" className="navlink">
                     Inicio
                 </Link>
@@ -166,13 +166,13 @@ export default function Navbar() {
                     <div className="bg-white w-full py-8 px-10 flex justify-between items-center">
                         <Link href="/">
                             <img
-                                className="h-5"
+                                className="h-20"
                                 src={D_PASTEL_LOGOTYPE}
                                 alt="D-pastel Logotype"
                             />
                         </Link>
                         <h5
-                            className="text-lg hover:underline cursor-pointer"
+                            className="text-xl hover:underline cursor-pointer"
                             onClick={() => setSearchOpen(false)}
                         >
                             Cerrar

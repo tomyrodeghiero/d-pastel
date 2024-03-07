@@ -2,6 +2,7 @@
 
 import BiographySection from '@/components/biography-section';
 import ContactForm from '@/components/contact-form'
+import ContactSocialMedia from '@/components/contact-social-media';
 import HeaderBackground from '@/components/header-background'
 import { BG_CONTACT, CONTACT, EMAIL, FACEBOOK, INSTAGRAM, PHONE, WORLD } from '@/utils/constants/assets'
 import { FACEBOOK_URL, INSTAGRAM_URL, PHONE_NUMBER } from '@/utils/constants/social-media'
@@ -69,7 +70,7 @@ const ContactPage = () => {
                     </div>
                 </div>
                 <BiographySection />
-                <ContactForm />
+                <ContactSocialMedia />
             </div>
         </>
     )

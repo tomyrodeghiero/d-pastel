@@ -3,14 +3,14 @@
 import React from 'react';
 import { ARROW_RIGHT } from '@/utils/constants/assets';
 
-const ContactForm = () => {
+const ContactSocialMedia = () => {
     const handleSubmit = (event: any) => {
         event.preventDefault();
     }
 
     return (
         <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto my-10">
-            <h2 className="text-3xl lg:text-4xl text-gray-900 text-center mb-7">¿Lámpara Creativa? Hablemos y<br />hagámoslo realidad.</h2>
+            <h2 className="text-3xl lg:text-4xl text-gray-900 text-center mb-7">Amamos conocer nuevas personas para iluminar sus espacios</h2>
             <div className="flex flex-wrap -mx-3 mb-6 w-full font-family-jost">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <div className="relative">
@@ -59,4 +59,4 @@ const ContactForm = () => {
     );
 }
 
-export default ContactForm;
+export default ContactSocialMedia;

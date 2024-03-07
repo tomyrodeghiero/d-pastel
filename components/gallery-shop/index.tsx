@@ -1,13 +1,10 @@
 // Importaciones de React y Next.js
-import { GALLERY_01, GALLERY_02, GALLERY_03, GALLERY_04, GALLERY_SHOP_01, GALLERY_SHOP_03, GALLERY_SHOP_04, GALLERY_SHOP_05, GALLERY_SHOP_06, GALLERY_SHOP_07, GALLERY_SHOP_08, NAVIGATE } from '@/utils/constants/assets';
+import { GALLERY_SHOP_01, GALLERY_SHOP_03, GALLERY_SHOP_04, GALLERY_SHOP_05, GALLERY_SHOP_06, GALLERY_SHOP_07, GALLERY_SHOP_08, NAVIGATE } from '@/utils/constants/assets';
 import Link from 'next/link';
 import React from 'react';
 
-// Componente de React para un elemento individual de la galería
 const GalleryItem = ({ src, title, description }: any) => {
-    // Altura fija para todas las imágenes
-    const imageHeight = 'h-[30rem]'; // Ejemplo de altura fija, ajusta según sea necesario
-
+    const imageHeight = 'h-72 lg:h-[30rem]';
     return (
         <div className="w-full flex flex-col">
             <div className={`w-full overflow-hidden rounded-lg ${imageHeight}`}>
@@ -40,7 +37,7 @@ const GalleryShop = () => {
     ];
 
     return (
-        <div className="mx-auto max-w-6xl py-4">
+        <div className="mx-auto max-w-6xl py-4 px-2">
             <div className="grid grid-cols-2 gap-4 mt-5">
                 {lamps.map((lamp, index) => (
                     <GalleryItem key={index} {...lamp} />

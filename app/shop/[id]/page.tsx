@@ -39,13 +39,13 @@ const ProductPage = () => {
         <>
             <HeaderBackground
                 background={BG_SHOP_ID}
-                title="Ilumina tu Espacio Tienda"
+                title="Ilumina tu Espacio"
                 subtitle="Inicio - Tienda - Lámpara"
             />
 
             <div className='max-w-5xl mx-auto'>
-                <div className='flex py-12 mx-auto gap-5'>
-                    <div className='w-2/5 h-auto text-xl'>
+                <div className='flex px-5 lg:px-0 flex-col-reverse lg:flex-row py-12 mx-auto gap-5'>
+                    <div className='w-full lg:w-2/5 h-auto text-xl order-last lg:order-none'>
                         <div className='pb-5 border-b border-gray-200'>
                             <div className="space-y-4 bg-orange-100 p-10 rounded-2xl">
                                 <div className="flex text-gray-900">
@@ -86,7 +86,7 @@ const ProductPage = () => {
                     </div>
 
 
-                    <div className="w-3/5 font-family-jost pl-4 mx-auto">
+                    <div className="w-full lg:w-3/5 font-family-jost lg:pl-5 mx-auto order-first lg:order-none">
                         <div>
                             <h1 className="text-4xl text-gray-900 mb-2">{productID?.name}</h1>
                             {formatPriceARS(selectedPrice) != "0,00" && (
@@ -214,8 +214,8 @@ const ProductPage = () => {
                     </div>
                 </div>
 
-                <div className='relative group mb-24'>
-                    <img src={GALLERY_SHOP_03} alt="Descripción" className='w-full h-[40rem] object-cover rounded-xl transition duration-500 ease-in-out transform group-hover:scale-105' />
+                <div className='relative group mb-16 lg:mb-24 px-5 lg:px-0'>
+                    <img src={GALLERY_SHOP_03} alt="Descripción" className='w-full h-[25rem] lg:h-[40rem] object-cover rounded-xl transition duration-500 ease-in-out transform group-hover:scale-105' />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
                         <img src={ZOOM_IMAGE} alt="Zoom" className="w-40 transition-transform duration-700 ease-in-out transform translate-y-full group-hover:translate-y-0" />
                     </div>

@@ -58,3 +58,5 @@ export const WARRANTY = "/assets/icons/warranty.svg";
 export const WHATSAPP = "/assets/icons/whatsapp.png";
 export const WHATSAPP_CART = "/assets/icons/whatsapp-cart.png";
 export const ZOOM_IMAGE = "/assets/icons/zoom-image.png";
+export const VIEW_MORE = "/assets/icons/view-more.png";
+export const VIEW_LESS = "/assets/icons/view-less.png";
