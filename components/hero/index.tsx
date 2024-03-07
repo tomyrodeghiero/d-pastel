@@ -18,7 +18,7 @@ const Hero = () => {
                             </p>
                             <Link href="/shop" className='inline-flex'>
                                 <img
-                                    className="mt-5 w-44"
+                                    className="mt-5 w-48"
                                     src={GO_TO_SHOP}
                                     alt="Go to Shop"
                                 />
@@ -36,7 +36,7 @@ const Hero = () => {
             </div>
 
             <img
-                className="object-cover w-[36rem] rounded-l-[5rem] lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2"
+                className="object-cover h-[87.5vh] rounded-l-[5rem] lg:absolute lg:inset-y-0 lg:right-0"
                 src={INTERIOR_DESIGN_BANNER}
                 alt="Interior design banner"
             />

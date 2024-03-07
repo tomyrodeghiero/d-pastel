@@ -136,7 +136,7 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="navbar flex justify-between items-center px-40 my-5 bg-white">
+        <nav className="navbar flex justify-between items-center px-40 my-4 bg-white">
             <Link href="/">
                 <Image src={D_PASTEL_LOGOTYPE} alt="Logo" width={80} height={80} />
             </Link>

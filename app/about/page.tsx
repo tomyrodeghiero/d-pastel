@@ -5,13 +5,14 @@ import SectionCard from '@/components/section-card'
 import { BG_ABOUT, SECTION_CARD_01 } from '@/utils/constants/assets'
 import React from 'react'
 
-const ShopPage = () => {
+const AboutPage = () => {
     return (
         <>
             <HeaderBackground
                 background={BG_ABOUT}
                 title="Sobre Nosotros"
                 subtitle="Inicio - Nosotros"
+                focusPosition='bottom'
             />
             <QuoteCard />
             <SectionCard
@@ -35,4 +36,4 @@ const ShopPage = () => {
     )
 }
 
-export default ShopPage
+export default AboutPage

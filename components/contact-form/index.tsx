@@ -59,7 +59,7 @@ const ContactForm = () => {
                             htmlFor="message"
                             className="absolute left-0 top-1 cursor-text peer-focus:text-xs peer-focus:-top-4 transition-all peer-focus:text-gray-900"
                         >
-                            Mensaje
+                            Hola, quisiera consultarles acerca de ...
                         </label>
                     </div>
                 </div>

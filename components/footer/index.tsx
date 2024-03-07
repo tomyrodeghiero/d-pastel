@@ -5,13 +5,13 @@ import { FACEBOOK_URL, INSTAGRAM_URL } from "@/utils/constants/social-media";
 
 const Footer = () => {
     return (
-        <footer className="w-full mx-auto">
+        <footer className="w-full mx-auto font-family-jost">
             <div className="max-w-5xl mx-auto flex justify-between pb-10">
-                <div className="mb-8 md:mb-0">
+                <div className="mb-4 md:mb-0">
                     <Link href="/">
                         <img className="h-20" src={D_PASTEL_LOGOTYPE} alt="D-pastel" />
                     </Link>
-                    <p className="font-family-jost text-gray-500 leading-5 w-[65%]">La atención al detalle es lo que define nuestros espacios.</p>
+                    <p className="text-gray-500 leading-5 w-[65%]">La atención al detalle es lo que define nuestros espacios.</p>
 
                     <div className="flex gap-4 mt-4">
                         <Link href={FACEBOOK_URL}>
@@ -53,7 +53,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className="mb-8 max-w-5xl mx-auto border-t border-gray-300">
+            <div className="mb-8 max-w-5xl mx-auto">
                 <p className="inline-flex flex-col md:flex-row mt-2 items-start md:items-center font-family-jost">
                     <span className="font-medium cursor-default">
                         © 1989 - 2024 D-pastel, Iluminando con Estilo.
