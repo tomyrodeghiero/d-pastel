@@ -2,7 +2,7 @@ import React from 'react';
 
 const QuoteCard = ({ author, quote }: any) => {
     return (
-        <div className='w-full flex justify-center'>
+        <div className='w-full flex justify-center' data-aos="fade-up">
             <div className="relative text-center mt-10 inline-flex justify-center w-[90%] lg:w-full">
                 <div className="relative flex flex-col justify-center border-[0.75rem] border-orange-100 py-5 px-10 items-center rounded-[2.5rem]">
                     <div className='bg-white justify-center h-[115%] w-[70%] absolute' />

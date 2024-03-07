@@ -5,9 +5,43 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { useRouter } from "next/navigation";
-import { ARGENTINA, CLOSE_MENU, DROP_RIGHT, D_PASTEL_LOGOTYPE, HOME, MENU, SEARCH } from "@/utils/constants/assets";
+import { ARGENTINA, CLOSE_MENU, DELIVERY_BOX, DROP_RIGHT, D_PASTEL_LOGOTYPE, EMPTY_CART, HISTORY, HOME, MENU, SEARCH, SHOPPING_CART, WHATSAPP_CART } from "@/utils/constants/assets";
+import { useCart } from "@/context/CartContext";
+import { PHONE_NUMBER } from "@/utils/constants/social-media";
 
 export default function Navbar() {
+    const [additionalMessage, setAdditionalMessage] = useState<any>("");
+
+    const generateWhatsAppLink = (cartItems: any, additionalMessage = "") => {
+        let baseURL = `https://wa.me/${PHONE_NUMBER}`;
+        let message = "*Hola!* Me gustaría realizar el siguiente pedido:\n\n";
+
+        cartItems.forEach((item: any, index: number) => {
+            message += `${index + 1}. *Producto:* ${item.name}, *Cantidad:* ${item.quantity}, *Precio:* $${item.price}\n`;
+        });
+
+        if (additionalMessage.trim() !== "") {
+            message += `\n*Mensaje adicional:* ${additionalMessage}`;
+        }
+
+        message = encodeURIComponent(message);
+
+        return `${baseURL}?text=${message}`;
+    };
+
+
+
+    const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
+    const { cart, removeFromCart } = useCart();
+
+    const toggleCartDrawer = () => {
+        if (cartDrawerOpen) {
+            setCartDrawerOpen(false);
+        } else {
+            setCartDrawerOpen(true);
+        }
+    };
+
     const router = useRouter();
 
     const [searchOpen, setSearchOpen] = useState(false);
@@ -57,13 +91,26 @@ export default function Navbar() {
 
     if (isMobile) {
         return (
-            <nav className="navbar flex flex-wrap justify-between items-center py-5 px-4 lg:hidden relative z-50">
+            <nav className="navbar flex flex-wrap justify-between items-center py-2 lg:py-5 px-4 lg:hidden relative z-50">
                 <Link href="/">
-                    <img className="h-8" src={D_PASTEL_LOGOTYPE} alt="D-pastel" />
+                    <Image src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" width={80} height={80} />
                 </Link>
 
                 {!isOpen && (
                     <div className="flex gap-4 items-center">
+                        <div className="relative cursor-pointer">
+                            <img
+                                className="h-6"
+                                src={SHOPPING_CART}
+                                alt="Shopping cart"
+                                onClick={toggleCartDrawer}
+                            />
+                            {cart.length > 0 && (
+                                <div className="absolute top-[0.7rem] left-[0.7rem] text-[0.9rem] h-5 w-5 rounded-full border border-yellow-900 bg-gold-500 flex items-center justify-center text-white shadow">
+                                    {cart.length}
+                                </div>
+                            )}
+                        </div>
                         <img className="h-4" src={MENU} alt="Menu" onClick={toggleMenu} />
                     </div>
                 )}
@@ -75,9 +122,22 @@ export default function Navbar() {
                     <div>
                         <div className="flex justify-between items-center">
                             <Link href="/">
-                                <img className="h-8" src={D_PASTEL_LOGOTYPE} alt="Sophilum" />
+                                <Image src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" width={80} height={80} />
                             </Link>
                             <div className="flex items-center gap-4">
+                                <div className="relative cursor-pointer mt-[-0.3rem] mr-3">
+                                    <img
+                                        className="h-6"
+                                        src={SHOPPING_CART}
+                                        alt="Shopping cart"
+                                        onClick={toggleCartDrawer}
+                                    />
+                                    {cart.length > 0 && (
+                                        <div className="absolute top-[0.7rem] left-[0.7rem] text-[0.9rem] h-5 w-5 rounded-full border border-yellow-900 bg-gold-500 flex items-center justify-center text-white shadow">
+                                            {cart.length}
+                                        </div>
+                                    )}
+                                </div>
                                 <div onClick={toggleMenu}>
                                     <img
                                         className="h-5 cursor-pointer"
@@ -89,7 +149,7 @@ export default function Navbar() {
                         </div>
                         <div className="my-5">
                             <div className="flex justify-between">
-                                <h1 className="text-xl mb-6">Navegación</h1>
+                                <h1 className="text-2xl mb-6 text-gray-900">Navegación</h1>
                                 <img className="h-6 cursor-pointer" src={ARGENTINA} alt="Argenetina" />
                             </div>
                             <div className="flex flex-col">
@@ -99,7 +159,7 @@ export default function Navbar() {
                                 >
                                     <div className="flex gap-4">
                                         <img className="h-6 cursor-pointer" src={HOME} alt="Home" />
-                                        <h2 className="text-xl">Home</h2>
+                                        <h2 className="text-xl">Inicio</h2>
                                     </div>
                                     <img
                                         className="h-4 cursor-pointer"
@@ -112,7 +172,22 @@ export default function Navbar() {
                                     onClick={(event) => handleLinkClick(event, "/shop")}
                                 >
                                     <div className="flex gap-4">
+                                        <img className="h-6 cursor-pointer" src={DELIVERY_BOX} alt="About" />
                                         <h2 className="text-xl">Tienda</h2>
+                                    </div>
+                                    <img
+                                        className="h-4 cursor-pointer"
+                                        src={DROP_RIGHT}
+                                        alt="Drop right"
+                                    />
+                                </div>
+                                <div
+                                    className="flex justify-between border-b border-gray-400 py-7 items-center"
+                                    onClick={(event) => handleLinkClick(event, "/about")}
+                                >
+                                    <div className="flex gap-4">
+                                        <img className="h-6 cursor-pointer" src={HISTORY} alt="History" />
+                                        <h2 className="text-xl">Nuestra Historia</h2>
                                     </div>
                                     <img
                                         className="h-4 cursor-pointer"
@@ -131,6 +206,101 @@ export default function Navbar() {
                         Contacto
                     </button>
                 </div>
+
+                {cartDrawerOpen && (
+                    <>
+                        <div className="overlay" onClick={toggleCartDrawer}></div>
+                        <div className="absolute bottom-0 z-50 border-l border-black font-family-jost top-0 right-0 w-[90%] h-screen shadow-lg bg-white overflow-y-auto">
+                            <div className="relative h-screen">
+                                <div className="relative h-screen">
+                                    <div className="flex justify-between items-center border-b p-4">
+                                        <h2 className="text-xl font-medium">Carrito de Compras</h2>
+                                        <img
+                                            className="h-4 cursor-pointer"
+                                            src={CLOSE_MENU}
+                                            alt="Close Menu"
+                                            onClick={toggleCartDrawer}
+                                        />
+                                    </div>
+
+                                    {/* Map over the cart items here */}
+                                    {cart.length > 0 ? <div className="px-4">
+                                        {cart.map((item: any, index: number) => (
+                                            <div key={index} className="flex mt-4 justify-between items-center border-b pb-4">
+                                                <img
+                                                    src={item.mainImageUrl}
+                                                    alt={item.name}
+                                                    className="w-20 h-20 rounded-lg object-cover"
+                                                />
+                                                <div className="flex flex-col justify-between ml-4 flex-grow">
+                                                    <span className="text-lg font-bold">{item.name}</span>
+                                                    <span>Cantidad ({item.quantity})</span>
+                                                    <span className="font-bold">${item.price}</span>
+                                                </div>
+                                                <button className="underline" onClick={() => removeFromCart(item.productId)}>
+                                                    Remover
+                                                </button>
+                                            </div>
+                                        ))}
+
+                                        <div className="flex justify-between items-center border-b py-4">
+                                            <span className="text-lg">Total</span>
+                                            <span className="text-lg font-bold">
+                                                ${cart.reduce((total: any, currentItem: any) => total + currentItem.price * currentItem.quantity, 0).toFixed(2)}
+                                            </span>
+                                        </div>
+
+                                        <div className="my-4">
+                                            <label htmlFor="additionalMessage" className="block mb-2 font-medium text-gray-900">Mensaje adicional antes de la compra</label>
+                                            <textarea
+                                                id="additionalMessage"
+                                                rows={5}
+                                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                                placeholder="Si tienes algo más que quieras decirnos, por favor, escribe tu mensaje aquí..."
+                                                value={additionalMessage}
+                                                onChange={(e) => setAdditionalMessage(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <div className="mb-4">
+                                            Ofrecemos envío estándar gratuito a nivel nacional.
+                                        </div>
+
+                                    </div> : <div className="h-3/4 flex items-center">
+                                        <div className="flex-col w-full justify-center text-center items-center">
+                                            <img className="h-80 w-full" src={EMPTY_CART} alt="Empty cart" />
+                                            <h1 className="mt-8 text-[1.5rem]">Su Carrito está Vacío</h1>
+                                            <p className="font-medium text-gray-500 mt-4">
+                                                Parece que aún no has añadido Productos a tu Carrito
+                                            </p>
+
+                                            <Link href="/shop" className="w-full flex justify-center items-center mt-8">
+                                                <button onClick={() => setCartDrawerOpen(false)} className="bg-green-900 hover:bg-green-700 focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 rounded-[40px] text-white px-6 py-3">
+                                                    Ir a la Tienda
+                                                </button>
+                                            </Link>
+                                        </div>
+                                    </div>}
+
+                                    <Link
+                                        href={generateWhatsAppLink(cart, additionalMessage)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full cursor-pointer flex gap-3 justify-center items-center absolute bottom-0 bg-green-700 text-white py-4"
+                                    >
+                                        <Image
+                                            alt="WhatsApp"
+                                            src={WHATSAPP_CART}
+                                            width={30}
+                                            height={30}
+                                        />
+                                        <h2 className="font-medium text-lg">Comprar por WhatsApp</h2>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
             </nav>
         );
     }
@@ -157,6 +327,21 @@ export default function Navbar() {
 
                 <div className="space-x-5 flex items-center">
                     <img src={SEARCH} alt="Search" onClick={() => setSearchOpen(true)} className="h-5 cursor-pointer" />
+
+                    <div className="relative cursor-pointer">
+                        <img
+                            className="h-6"
+                            src={SHOPPING_CART}
+                            alt="Shopping cart"
+                            onClick={toggleCartDrawer}
+                        />
+                        {cart.length > 0 && (
+                            <div className="absolute top-[0.7rem] left-[0.7rem] text-[0.9rem] h-5 w-5 rounded-full border border-yellow-900 bg-gold-500 flex items-center justify-center text-white shadow">
+                                {cart.length}
+                            </div>
+                        )}
+                    </div>
+
                     <img src={ARGENTINA} alt="Argentina Flag" className="h-6" />
                 </div>
             </div>
@@ -165,20 +350,17 @@ export default function Navbar() {
                 <div className="fixed z-50 top-0 left-0 w-full h-full bg-black bg-opacity-50 transition-opacity duration-500 ease-in-out">
                     <div className="bg-white w-full py-8 px-10 flex justify-between items-center">
                         <Link href="/">
-                            <img
-                                className="h-20"
-                                src={D_PASTEL_LOGOTYPE}
-                                alt="D-pastel Logotype"
-                            />
+                            <Image src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" width={80} height={80} />
                         </Link>
                         <h5
+                            data-aos="fade-left"
                             className="text-xl hover:underline cursor-pointer"
                             onClick={() => setSearchOpen(false)}
                         >
                             Cerrar
                         </h5>
                     </div>
-                    <div className="bg-white w-full top-0 py-8 px-10 flex gap-5 items-center">
+                    <div className="bg-white w-full top-0 pb-8 px-10 flex gap-5 items-center">
                         <input
                             type="text"
                             className="w-4/5 border border-black p-3"
@@ -195,6 +377,101 @@ export default function Navbar() {
                         </button>
                     </div>
                 </div>
+            )}
+
+            {cartDrawerOpen && (
+                <>
+                    <div className="overlay" onClick={toggleCartDrawer}></div>
+                    <div className="absolute bottom-0 z-50 border-l border-black font-family-jost top-0 right-0 w-[28rem] h-screen shadow-lg bg-white overflow-y-auto">
+                        <div className="relative h-screen">
+                            <div className="relative h-screen">
+                                <div className="flex justify-between items-center border-b p-4">
+                                    <h2 className="text-xl font-medium">Carrito de Compras</h2>
+                                    <img
+                                        className="h-4 cursor-pointer"
+                                        src={CLOSE_MENU}
+                                        alt="Close Menu"
+                                        onClick={toggleCartDrawer}
+                                    />
+                                </div>
+
+                                {/* Map over the cart items here */}
+                                {cart.length > 0 ? <div className="px-4">
+                                    {cart.map((item: any, index: number) => (
+                                        <div key={index} className="flex mt-4 justify-between items-center border-b pb-4">
+                                            <img
+                                                src={item.mainImageUrl}
+                                                alt={item.name}
+                                                className="w-20 h-20 rounded-lg object-cover"
+                                            />
+                                            <div className="flex flex-col justify-between ml-4 flex-grow">
+                                                <span className="text-lg font-bold">{item.name}</span>
+                                                <span>Cantidad ({item.quantity})</span>
+                                                <span className="font-bold">${item.price}</span>
+                                            </div>
+                                            <button className="underline" onClick={() => removeFromCart(item.productId)}>
+                                                Remover
+                                            </button>
+                                        </div>
+                                    ))}
+
+                                    <div className="flex justify-between items-center border-b py-4">
+                                        <span className="text-lg">Total</span>
+                                        <span className="text-lg font-bold">
+                                            ${cart.reduce((total: any, currentItem: any) => total + currentItem.price * currentItem.quantity, 0).toFixed(2)}
+                                        </span>
+                                    </div>
+
+                                    <div className="my-4">
+                                        <label htmlFor="additionalMessage" className="block mb-2 text-sm font-medium text-gray-900">Mensaje adicional antes de la compra</label>
+                                        <textarea
+                                            id="additionalMessage"
+                                            rows={5}
+                                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                            placeholder="Si tienes algo más que quieras decirnos, por favor, escribe tu mensaje aquí..."
+                                            value={additionalMessage}
+                                            onChange={(e) => setAdditionalMessage(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className="text-sm mb-4">
+                                        Ofrecemos envío estándar gratuito a nivel nacional.
+                                    </div>
+
+                                </div> : <div className="h-3/4 flex items-center">
+                                    <div className="flex-col w-full justify-center text-center items-center">
+                                        <img className="h-80 w-full" src={EMPTY_CART} alt="Empty cart" />
+                                        <h1 className="mt-8 text-[1.5rem]">Su Carrito está Vacío</h1>
+                                        <p className="font-medium text-gray-500 mt-4">
+                                            Parece que aún no has añadido Productos a tu Carrito
+                                        </p>
+
+                                        <div className="w-full flex justify-center items-center mt-8">
+                                            <button onClick={() => setCartDrawerOpen(false)} className="bg-green-900 hover:bg-green-700 focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 rounded-[40px] text-white px-6 py-3">
+                                                Ir a la Tienda
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>}
+
+                                <Link
+                                    href={generateWhatsAppLink(cart)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-full cursor-pointer flex gap-3 justify-center items-center absolute bottom-0 bg-green-700 text-white py-4"
+                                >
+                                    <Image
+                                        alt="WhatsApp"
+                                        src={WHATSAPP_CART}
+                                        width={30}
+                                        height={30}
+                                    />
+                                    <h2 className="font-medium text-lg">Comprar por WhatsApp</h2>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </>
             )}
         </nav>
     );

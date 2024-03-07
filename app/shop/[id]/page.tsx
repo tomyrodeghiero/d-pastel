@@ -3,37 +3,118 @@
 import ColorCircle from '@/components/color-circle';
 import { FormatText } from '@/components/format-text';
 import HeaderBackground from '@/components/header-background';
+import { useCart } from '@/context/CartContext';
 import { BG_SHOP_ID, FACEBOOK, GALLERY_SHOP_03, GALLERY_SHOP_04, GALLERY_SHOP_05, INSTAGRAM, STARS, ZOOM_IMAGE } from '@/utils/constants/assets';
 import { FACEBOOK_URL, INSTAGRAM_URL } from '@/utils/constants/social-media';
 import { formatPriceARS } from '@/utils/functions';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
-const ProductPage = () => {
-    // Datos ficticios para el producto
-    const productID: any = {
-        name: 'Lámpara Elegante',
-        additionalInformation: 'Una lámpara moderna y elegante para iluminar tu espacio.',
-        measurements: [
-            { _id: 'm1', measure: 'Pequeña', price: 1000 },
-            { _id: 'm2', measure: 'Mediana', price: 2000 },
-            { _id: 'm3', measure: 'Grande', price: 3000 },
-        ],
-        colors: [
-            { hex: '#FF6347' },
-            { hex: '#7FFFD4' },
-            { hex: '#4682B4' },
-        ],
-        mainImageUrl: 'path_to_main_image',
-        _id: 'product123'
+const ProductPage = ({ params }: { params: { id: string } }) => {
+    const [productAdded, setProductAdded] = useState(false);
+    const [stock, setStock] = useState<number>(1);
+    const [product, setProduct] = useState<any>(null)
+    const [selectedMeasure, setSelectedMeasure] = useState('');
+    const [selectedPrice, setSelectedPrice] = useState(0);
+    const [selectedColor, setSelectedColor] = useState<any>({});
+    const [quantity, setQuantity] = useState(1);
+    const { addToCart } = useCart();
+    const decrement = () => quantity > 1 && setQuantity(quantity - 1);
+    const increment = () => {
+        if (quantity < stock) {
+            setQuantity(quantity + 1);
+        } else {
+            toast.warning(
+                `No hay más stock de este producto. Solo quedan ${stock} unidades.`,
+                {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                }
+            );
+        }
     };
 
-    // Valores seleccionados
-    const [selectedPrice, setSelectedPrice] = useState(productID.measurements[0].price);
-    const [selectedMeasure, setSelectedMeasure] = useState(productID.measurements[0].measure);
-    const [selectedColor, setSelectedColor] = useState(productID.colors[0]);
-    const [quantity, setQuantity] = useState(1);
+    const showAddedToCart = () => {
+        return toast.success(
+            `El Producto ${product.name} ha sido añadido a su carrito! 🛍️`,
+            {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            }
+        );
+    };
+
+
+    async function getProductID(): Promise<any> {
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        try {
+            const response = await fetch(`/api/product/${params.id}`, requestOptions);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            } else if (
+                !response.headers.get("Content-Type")?.includes("application/json")
+            ) {
+                throw new Error(
+                    `Invalid content type. Expected application/json but received ${response.headers.get(
+                        "Content-Type"
+                    )}`
+                );
+            }
+
+            const productDB = await response.json();
+            console.log("productDB", productDB)
+            setProduct(productDB);
+            setStock(productDB.stock);
+
+            if (productDB) {
+                const { measurements, colors } = productDB;
+                setSelectedMeasure(measurements[0].measure);
+                setSelectedPrice(measurements[0].price);
+                setSelectedColor(colors[0]);
+            }
+
+            // Parse the color data if it exists
+            if (productDB.colors && Array.isArray(productDB.colors)) {
+                const parsedColors = productDB.colors.map((color: any) => {
+                    try {
+                        return JSON.parse(color);
+                    } catch (e) {
+                        console.error("Failed to parse color:", color, e);
+                        // Handle the error or return the original value
+                        return color;
+                    }
+                });
+
+                productDB.colors = parsedColors;
+            }
+
+        } catch (error) {
+            console.error("error", error);
+            throw error;
+        }
+    }
+
+    useEffect(() => {
+        getProductID();
+    }, []);
 
     return (
         <>
@@ -45,37 +126,37 @@ const ProductPage = () => {
 
             <div className='max-w-5xl mx-auto'>
                 <div className='flex px-5 lg:px-0 flex-col-reverse lg:flex-row py-12 mx-auto gap-5'>
-                    <div className='w-full lg:w-2/5 h-auto text-xl order-last lg:order-none'>
+                    <div className='w-full lg:w-2/5 h-auto text-xl order-last lg:order-none' data-aos="fade-right">
                         <div className='pb-5 border-b border-gray-200'>
                             <div className="space-y-4 bg-orange-100 p-10 rounded-2xl">
                                 <div className="flex text-gray-900">
-                                    <span className="font-medium w-28">Categoría</span>
-                                    <span className='text-gray-500 font-family-jost'>Interiors</span>
+                                    <span className="font-medium w-32">Categoría</span>
+                                    <span className='text-gray-500 font-family-jost'>{product?.category}</span>
                                 </div>
                                 <div className="flex text-gray-900">
-                                    <span className="font-medium w-28">Etiquetas</span>
-                                    <span className='text-gray-500 font-family-jost'>Diseño, Hogar</span>
+                                    <span className="font-medium w-32">Tono de Luz</span>
+                                    <span className='text-gray-500 font-family-jost'>{product?.lightTone}</span>
                                 </div>
                                 <div className="flex text-gray-900">
-                                    <span className="font-medium w-28">Stock</span>
-                                    <span className='text-gray-500 font-family-jost'>Disponible ahora</span>
+                                    <span className="font-medium w-32">Stock</span>
+                                    <span className='text-gray-500 font-family-jost'>{stock > 0 ? "Disponible ahora" : "Agotado"}</span>
                                 </div>
                                 <div className="flex text-gray-900">
-                                    <span className="font-medium w-28">Link</span>
+                                    <span className="font-medium w-32">Colores</span>
                                     <span className='text-gray-500 font-family-jost'>http://bibliofe.com</span>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex font-family-jost items-center">
+                        <div data-aos="fade-up" className="flex font-family-jost items-center">
                             <h2 className="my-4 text-lg font-medium text-gray-500">Contacto : &nbsp;</h2>
-                            <Link href={FACEBOOK_URL}>
+                            <Link href={FACEBOOK_URL} target='_blank'>
                                 <img
                                     className="hover-lift h-4 mx-2"
                                     src={FACEBOOK}
                                     alt="Facebook Icon"
                                 />
                             </Link>
-                            <Link href={INSTAGRAM_URL}>
+                            <Link href={INSTAGRAM_URL} target='_blank'>
                                 <img
                                     className="hover-lift h-4 mx-2"
                                     src={INSTAGRAM}
@@ -85,24 +166,24 @@ const ProductPage = () => {
                         </div>
                     </div>
 
-
-                    <div className="w-full lg:w-3/5 font-family-jost lg:pl-5 mx-auto order-first lg:order-none">
+                    <div className="w-full lg:w-3/5 font-family-jost lg:pl-5 mx-auto order-first lg:order-none" data-aos="fade-left">
                         <div>
-                            <h1 className="text-4xl text-gray-900 mb-2">{productID?.name}</h1>
+                            <h1 className="text-4xl text-gray-900 mb-2">{product?.name}</h1>
                             {formatPriceARS(selectedPrice) != "0,00" && (
                                 <h2 className="text-xl font-family-jost text-gray-500 font-medium mb-4">
                                     $ {formatPriceARS(selectedPrice)}
                                 </h2>
                             )}
 
-                            <img src={STARS} alt="Stars" className="w-28 mb-4" />
-                            <FormatText text={productID.additionalInformation} />
+                            <p dangerouslySetInnerHTML={{ __html: product?.description }} />
 
-                            {productID.measurements && productID.measurements.length > 0 && (
+                            <img src={STARS} alt="Stars" className="w-28 my-4" />
+
+                            {product?.measurements && product.measurements?.length > 0 && (
                                 <div className="flex flex-col gap-2 mt-5">
                                     <h2 className="text-xl text-gray-500 ">Tamaño</h2>
                                     <div className="flex gap-3">
-                                        {productID.measurements.map((measure: any) => (
+                                        {product.measurements.map((measure: any) => (
                                             <button
                                                 key={measure._id}
                                                 className={`py-2 px-3 rounded ${selectedMeasure === measure.measure
@@ -121,13 +202,13 @@ const ProductPage = () => {
                                 </div>
                             )}
 
-                            {productID.colors &&
-                                productID.colors[0] != "#8B4513" &&
-                                productID.colors.length > 0 && (
+                            {product?.colors &&
+                                product?.colors[0] != "#8B4513" &&
+                                product.colors?.length > 0 && (
                                     <div className="flex flex-col gap-2 mt-5">
                                         <h2 className="text-xl text-gray-500 ">Color</h2>
                                         <div className="flex gap-3">
-                                            {productID.colors.map((color: any, index: number) => (
+                                            {product.colors.map((color: any, index: number) => (
                                                 <ColorCircle
                                                     key={index}
                                                     color={color.hex}
@@ -139,71 +220,64 @@ const ProductPage = () => {
                                     </div>
                                 )}
 
-                            <div className="flex items-center my-7 justify-start gap-4">
+                            <div data-aos="fade-up" className="flex items-center my-7 justify-start gap-4">
                                 <div className="flex w-28 h-12 text-gray-900 justify-between rounded-lg border border-gray-300 items-center gap-2 p-2">
                                     <button
-                                        // onClick={decrement}
-                                        className="px-3 h-full rounded hover:bg-gray-300"
+                                        onClick={decrement}
+                                        disabled={quantity === 1}
+                                        className="px-3 h-full rounded hover:bg-gray-100"
                                     >
                                         -
                                     </button>
                                     <span className="w-8 text-center">{quantity}</span>
                                     <button
-                                        // onClick={increment}
-                                        className="px-3 h-full rounded hover:bg-gray-300"
+                                        onClick={increment}
+                                        className="px-3 h-full rounded hover:bg-gray-100"
                                     >
                                         +
                                     </button>
                                 </div>
                                 <button
                                     onClick={() => {
-                                        const hasColorOptions =
-                                            Array.isArray(productID.colors) &&
-                                            productID.colors.length > 0;
-                                        const hasSizeOptions =
-                                            Array.isArray(productID.sizes) &&
-                                            productID.sizes.length > 0;
+                                        // Check if color options are available and selected
+                                        const isColorSelected = selectedColor && selectedColor.hex ? true : false;
+                                        // Check if size (measure) options are available and selected
+                                        const isSizeSelected = selectedMeasure ? true : false;
 
-                                        const isColorSelected = hasColorOptions
-                                            ? selectedColor
-                                            : true;
-                                        // const isSizeSelected = hasSizeOptions ? selectedSize : true;
+                                        if (isColorSelected && isSizeSelected) {
+                                            addToCart(
+                                                product._id,
+                                                product.name,
+                                                selectedPrice,
+                                                product.mainImageUrl,
+                                                quantity,
+                                                selectedMeasure,
+                                                selectedColor.name, // Assuming selectedColor object has a name property
+                                                selectedMeasure
+                                            );
+                                            setProductAdded(true);
+                                            showAddedToCart();
+                                        } else {
+                                            const messages = [];
+                                            if (!isSizeSelected)
+                                                messages.push("tamaño");
+                                            if (!isColorSelected)
+                                                messages.push("color");
 
-                                        // if (isColorSelected && isSizeSelected) {
-                                        // addToCart(
-                                        //     productID._id,
-                                        //     productID.name,
-                                        //     selectedPrice,
-                                        //     productID.mainImageUrl,
-                                        //     quantity,
-                                        //     selectedMeasure,
-                                        //     selectedColor ? selectedColor.name : null
-                                        // );
-                                        // setProductAdded(true);
-                                        // showAddedToCart();
-                                        // } else {
-                                        //     const messages = [];
-                                        //     if (!isSizeSelected && hasSizeOptions)
-                                        //         messages.push("tamaño");
-                                        //     if (!isColorSelected && hasColorOptions)
-                                        //         messages.push("color");
-
-                                        //     toast.warning(
-                                        //         `Selecciona un ${messages.join(
-                                        //             " y un "
-                                        //         )} antes de añadir al carrito.`,
-                                        //         {
-                                        //             position: "top-right",
-                                        //             autoClose: 5000,
-                                        //             hideProgressBar: false,
-                                        //             closeOnClick: true,
-                                        //             pauseOnHover: true,
-                                        //             draggable: true,
-                                        //             progress: undefined,
-                                        //             theme: "light",
-                                        //         }
-                                        //     );
-                                        // }
+                                            toast.warning(
+                                                `Selecciona un ${messages.join(" y un ")} antes de añadir al carrito.`,
+                                                {
+                                                    position: "top-right",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                    theme: "light",
+                                                }
+                                            );
+                                        }
                                     }}
                                     className={`bg-green-900 text-lg hover:bg-green-700 rounded focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 text-white h-12 w-full`}
                                 >
@@ -214,8 +288,8 @@ const ProductPage = () => {
                     </div>
                 </div>
 
-                <div className='relative group mb-16 lg:mb-24 px-5 lg:px-0'>
-                    <img src={GALLERY_SHOP_03} alt="Descripción" className='w-full h-[25rem] lg:h-[40rem] object-cover rounded-xl transition duration-500 ease-in-out transform group-hover:scale-105' />
+                <div data-aos="fade-up" className='relative group mb-16 lg:mb-24 px-5 lg:px-0'>
+                    <img src={product?.mainImageUrl} alt="Descripción" className='w-full h-[25rem] lg:h-[50rem] object-cover rounded-xl transition duration-500 ease-in-out transform group-hover:scale-105' />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
                         <img src={ZOOM_IMAGE} alt="Zoom" className="w-40 transition-transform duration-700 ease-in-out transform translate-y-full group-hover:translate-y-0" />
                     </div>

@@ -298,3 +298,43 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* Drawer */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 49;
+}
+
+/* Placeholder */
+@keyframes pulseAnimation {
+  0% { background-color: #f0f0f0; }
+  50% { background-color: #e0e0e0; }
+  100% { background-color: #f0f0f0; }
+}
+
+.placeholder {
+  display: block;
+  height: 15rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  animation: pulseAnimation 1.5s infinite ease-in-out;
+}
+
+@media (min-width: 1024px) {
+  .placeholder {
+      height: 30rem;
+  }
+}
+
+.placeholder-text {
+  margin-top: 0.5rem;
+  height: 1rem;
+  width: 90%;
+  background-color: #f0f0f0;
+  animation: pulseAnimation 1.5s infinite ease-in-out;
+}

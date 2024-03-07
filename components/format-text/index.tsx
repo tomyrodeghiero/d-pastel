@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 
 export const FormatText = ({ text, className }: any) => {
@@ -15,7 +13,7 @@ export const FormatText = ({ text, className }: any) => {
                 cleanedText.split("<p>").map((paragraph: string, i: number) => {
                     if (paragraph.trim() === "") return null;
                     return (
-                        <p className="text-gray-900 font-family-jost text-xl leading-7" key={i}>
+                        <p key={i}>
                             <span dangerouslySetInnerHTML={{ __html: paragraph }} />
                         </p>
                     );

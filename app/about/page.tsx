@@ -20,7 +20,7 @@ const AboutPage = () => {
                     title="Lo Que Hacemos"
                     description="Es un hecho conocido que un ambiente bien diseñado puede influir en cómo nos sentimos y actuamos. En D-pastel, transformamos espacios para reflejar su verdadera esencia."
                     buttonText="Ir a la Tienda"
-                    buttonLink="#"
+                    buttonLink="/shop"
                     imageSrc={SECTION_CARD_01}
                     imagePosition="right"
                 />
@@ -28,7 +28,7 @@ const AboutPage = () => {
                     title="El Resultado Final"
                     description="Nuestra visión se materializa en cada rincón que diseñamos. El objetivo no es solo llenar un espacio, sino darle vida y propósito, creando lugares donde las personas se sientan realmente vivas."
                     buttonText="Conocer Más"
-                    buttonLink="#"
+                    buttonLink="/contact"
                     imageSrc={SECTION_CARD_02}
                     imagePosition="left"
                 />

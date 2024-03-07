@@ -2,7 +2,7 @@ import React from 'react';
 
 const StatsCard = ({ stats }: any) => {
     return (
-        <div className="flex flex-wrap justify-center items-center bg-beige-100 p-4">
+        <div className="flex flex-wrap justify-center items-center bg-beige-100 p-4" data-aos="fade-right">
             {stats.map((stat: any, index: number) => (
                 <div
                     key={stat.label}
@@ -18,9 +18,9 @@ const StatsCard = ({ stats }: any) => {
 
 const Stats = () => {
     const stats = [
-        { label: 'Años de Experiencia', value: 12 },
+        { label: 'Años de Experiencia', value: 15 },
         { label: 'Lámparas Creadas', value: 85 },
-        { label: 'Nuevos Diseños', value: 15 },
+        { label: 'Nuevos Diseños', value: 30 },
         { label: 'Clientes Felices', value: 205 }
     ];
 

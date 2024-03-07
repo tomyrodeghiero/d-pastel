@@ -1,3 +1,5 @@
+import { PHONE_NUMBER } from "../constants/social-media";
+
 export function formatPriceARS(price: any): any {
     if (typeof price === "number") {
         let priceFormatted = price.toFixed(2).replace(".", ",");
@@ -14,3 +16,10 @@ export function formatPriceARS(price: any): any {
         return priceFormatted;
     }
 }
+
+export const handleClickToWhatsApp = () => {
+    window.open(
+        `https://wa.me/${PHONE_NUMBER}`,
+        "_blank"
+    );
+};

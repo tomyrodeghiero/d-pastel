@@ -1,11 +1,12 @@
 import { ARROW_RIGHT } from '@/utils/constants/assets';
+import Link from 'next/link';
 import React from 'react';
 
 const SectionCard = ({ title, description, buttonText, buttonLink, imageSrc, imagePosition }: any) => {
     const isImageLeft = imagePosition === 'left';
 
     return (
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between my-10">
+        <div data-aos="fade-up" className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between my-10">
             {/* Mostrar imagen a la izquierda solo en escritorio */}
             {isImageLeft && (
                 <img src={imageSrc} alt="" className="hidden md:block w-full lg:mr-14 md:w-1/2 rounded-3xl" />
@@ -15,10 +16,10 @@ const SectionCard = ({ title, description, buttonText, buttonLink, imageSrc, ima
                 <p className="text-gray-500 font-family-jost text-lg my-5">
                     {description}
                 </p>
-                <button className="bg-gray-900 mt-4 lg:mt-8 gap-2 font-family-jost text-white font-semibold rounded-2xl py-4 px-5 flex items-center">
+                <Link href={buttonLink} className="bg-gray-900 inline-flex mt-4 lg:mt-8 gap-2 font-family-jost text-white font-medium rounded-2xl py-4 px-5 items-center">
                     {buttonText}
                     <img src={ARROW_RIGHT} alt="" className='w-3' />
-                </button>
+                </Link>
             </div>
             {/* Mostrar imagen a la derecha en escritorio o siempre en móviles */}
             {!isImageLeft && (

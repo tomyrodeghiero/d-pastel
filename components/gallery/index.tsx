@@ -1,46 +1,109 @@
-// Importaciones de React y Next.js
-import { GALLERY_01, GALLERY_02, GALLERY_03, GALLERY_04, NAVIGATE } from '@/utils/constants/assets';
-import Image from 'next/image';
-import React from 'react';
+"use client";
 
-// Componente de React para un elemento individual de la galería
-const GalleryItem = ({ src, title, description, inlineStyles }: any) => {
+import React, { useState, useEffect } from 'react';
+import { NAVIGATE } from '@/utils/constants/assets';
+import Link from 'next/link';
+
+const GalleryItemPlaceholder = () => (
+    <div className="w-full">
+        <div>
+            <span className="placeholder rounded lg:h-[30rem] object-cover w-full"></span>
+            <div className="mt-2 pl-2 lg:pl-0">
+                <span className="placeholder-text"></span>
+                <span className="placeholder-text"></span>
+            </div>
+        </div>
+    </div>
+);
+
+const GalleryItem = ({ src, title, category, id, inlineStyles }: any) => {
     return (
-        <div className="w-full">
+        <Link className='w-full' href={`/shop/${id}`}>
             <div>
-                <img src={src} alt={title} className={`${inlineStyles} w-full`} />
-                <div className="text-center p-4 mt-4 flex justify-between items-center">
+                <img src={src} alt={title} className={`${inlineStyles} h-[15rem] rounded lg:h-[30rem] object-cover w-full`} />
+                <div className="lg:text-center lg:p-4 mt-2 pl-2 lg:pl-0 flex flex-col lg:flex-row justify-between lg:items-center">
                     <div className='text-left'>
                         <p className="text-2xl text-gray-900">{title}</p>
-                        <p className="text-gray-500 text-xl font-family-jost">{description}</p>
+                        <p className="text-gray-500 text-xl font-family-jost">{category}</p>
                     </div>
-                    <div className="mt-4">
-                        <img src={NAVIGATE} alt="Navigate" className='h-12' />
+                    <div className='mt-2 lg:mt-0 mx-auto lg:mx-0'>
+                        <img src={NAVIGATE} alt="Navigate" className='h-10 lg:h-12' />
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 
-// Componente de React para la galería completa
 const Gallery = () => {
-    const lamps = [
-        { src: GALLERY_01, title: 'Modern Kitchan 01', description: 'Decor / Architecture', inlineStyles: "rounded-tr-[4.5rem]" },
-        { src: GALLERY_02, title: 'Modern Kitchan 02', description: 'Decor / Architecture', inlineStyles: "rounded-tl-[4.5rem]" },
-        { src: GALLERY_03, title: 'Modern Kitchan 03', description: 'Decor / Architecture', inlineStyles: "rounded-br-[4.5rem]" },
-        { src: GALLERY_04, title: 'Modern Kitchan 04', description: 'Decor / Architecture', inlineStyles: "rounded-bl-[4.5rem]" },
-    ];
+    const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Function to fetch products
+    async function getProducts() {
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        try {
+            const response = await fetch(`/api/products?page=1&limit=200`, requestOptions);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log("data", data)
+
+            const transformedProducts = data.products
+                .filter((product: any) => product.username === "dpastel")
+                .map((product: any, index: number) => ({
+                    src: product.mainImageUrl,
+                    title: product.name,
+                    category: product.category,
+                    id: product._id,
+                    // You can adjust the inlineStyles based on index or any other logic here
+                    inlineStyles: index % 4 === 0 ? "rounded-tr-[4.5rem]" :
+                        index % 4 === 1 ? "rounded-tl-[4.5rem]" :
+                            index % 4 === 2 ? "rounded-br-[4.5rem]" :
+                                "rounded-bl-[4.5rem]",
+                }));
+
+            setProducts(transformedProducts);
+        } catch (error) {
+            console.error("error", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getProducts();
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className="lg:mx-auto max-w-6xl py-5 lg:pt-0">
+                <div className="grid grid-cols-2 gap-4 lg:gap-10 mt-5">
+                    {[...Array(4)].map((_, index) => (
+                        <GalleryItemPlaceholder key={index} />
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
 
     return (
-        <div className="mx-auto max-w-6xl py-5 lg:pt-0" data-aos="fade-up">
-            <div className='w-full text-center'>
-                <h2 className='text-gray-900 text-3xl lg:text-4xl mb-2'>Descubre nuestras Lámparas</h2>
-                <p className='text-gray-500 text-lg font-family-jost w-[90%] lg:w-[75%] mx-auto leading-7'>Es un hecho conocido que el contenido claro y atractivo en una página captura la atención del lector.<br />Descubre cómo nuestros diseños de lámaparas transforman los espacios.</p>
+        <div className="lg:mx-auto max-w-6xl py-5 lg:pt-0" data-aos="fade-up">
+            <div className='w-full lg:text-center'>
+                <h2 className='text-gray-900 text-3xl lg:text-4xl mb-2' data-aos="fade-right">Descubre nuestras Lámparas</h2>
+                <p className='text-gray-500 text-lg font-family-jost w-[90%] lg:w-[75%] lg:mx-auto leading-7' data-aos="fade-up">Es un hecho conocido que el contenido claro y atractivo en una página captura la atención del lector.<br />Descubre cómo nuestros diseños de lámparas transforman los espacios.</p>
             </div>
             <div className="grid grid-cols-2 gap-4 lg:gap-10 mt-5">
-                {lamps.map((lamp, index) => (
-                    <GalleryItem key={index} {...lamp} />
+                {products.map((product: any, index) => (
+                    <GalleryItem key={index} {...product} />
                 ))}
             </div>
         </div>

@@ -10,7 +10,6 @@ const BiographySection = () => {
         setOpenDropdown(openDropdown === dropdownId ? null : dropdownId);
     };
 
-    // Estilos para la animación
     const hiddenStyle = {
         maxHeight: '0',
         overflow: 'hidden',
@@ -18,22 +17,22 @@ const BiographySection = () => {
     };
 
     const visibleStyle = {
-        maxHeight: '500px', // Asegúrate de que este valor sea suficiente para cubrir el contenido
+        maxHeight: '500px',
         transition: 'max-height 0.5s ease-in',
     };
 
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-4xl font-bold mb-6 text-gray-900">Biografía</h1>
+        <div className="container mx-auto p-4" data-aos="fade-up">
+            <h1 className="text-4xl font-bold mb-4 lg:mb-6 text-gray-900">Biografía</h1>
             <p className="text-gray-500 font-family-jost">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sem vitae turpis maximus posuere. Contrary to popular belief, there are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable.
                 <br /><br />
                 All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.
             </p>
-            <div className='w-full flex gap-16 mt-5'>
-                <div className='w-1/2'>
-                    <h2 className="text-2xl font-bold mb-6 text-gray-900">Arte, Elegancia & Estilo</h2>
+            <div className='w-full flex flex-col lg:flex-row gap-8 lg:gap-16 mt-5'>
+                <div className='w-full lg:w-1/2'>
+                    <h2 className="text-2xl font-bold mb-4 lg:mb-6 text-gray-900">Arte, Elegancia & Estilo</h2>
                     <p className="text-gray-500 font-family-jost">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sem vitae turpis maximus posuere. Contrary to popular belief, there are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable.
                         <br /><br />
@@ -41,7 +40,7 @@ const BiographySection = () => {
                     </p>
                 </div>
 
-                <div id="faq" className="bg-white w-1/2 mx-auto">
+                <div id="faq" className="bg-white w-full lg:w-1/2 mx-auto">
                     <div className='mb-4'>
                         <h2 className="text-2xl font-bold mb-6 text-gray-900">Preguntas & Respuestas</h2>
                         <p className="text-gray-500 font-family-jost">
