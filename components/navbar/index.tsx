@@ -93,7 +93,6 @@ export default function Navbar() {
         return (
             <nav className="navbar flex flex-wrap justify-between items-center py-2 lg:py-5 px-4 lg:hidden relative z-50">
                 <Link href="/">
-                    <Image src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" width={80} height={80} />
                 </Link>
 
                 {!isOpen && (
@@ -122,7 +121,6 @@ export default function Navbar() {
                     <div>
                         <div className="flex justify-between items-center">
                             <Link href="/">
-                                <Image src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" width={80} height={80} />
                             </Link>
                             <div className="flex items-center gap-4">
                                 <div className="relative cursor-pointer mt-[-0.3rem] mr-3">
@@ -308,7 +306,7 @@ export default function Navbar() {
     return (
         <nav className="navbar flex justify-between items-center px-40 my-4 bg-white">
             <Link href="/">
-                <Image src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" width={80} height={80} />
+                <img src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" className="h-28" />
             </Link>
 
             <div className="space-x-12 flex font-normal text-xl items-center" data-aos="fade-left">
@@ -350,7 +348,7 @@ export default function Navbar() {
                 <div className="fixed z-50 top-0 left-0 w-full h-full bg-black bg-opacity-50 transition-opacity duration-500 ease-in-out">
                     <div className="bg-white w-full py-8 px-10 flex justify-between items-center">
                         <Link href="/">
-                            <Image src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" width={80} height={80} />
+                            <img src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" className="h-28" />
                         </Link>
                         <h5
                             data-aos="fade-left"

@@ -10,7 +10,7 @@ const Footer = () => {
             <div className="max-w-5xl mx-auto flex flex-col lg:flex-row justify-between pb-10">
                 <div className="mb-4 lg:mb-0 w-full" data-aos="fade-right">
                     <Link href="/">
-                        <Image src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" width={80} height={80} />
+                        <img src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" className="h-28" />
                     </Link>
                     <p className="text-gray-500 leading-5 text-center lg:text-left text-xl lg:text-lg">La atención al detalle es lo que<br />define nuestros espacios.</p>
 

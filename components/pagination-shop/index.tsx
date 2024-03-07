@@ -38,7 +38,7 @@ const Pagination = ({ totalPages }: any) => {
 const GalleryPagination = () => {
     return (
         <div className="bg-white py-5 rounded-lg flex justify-center">
-            <Pagination totalPages={3} />
+            <Pagination totalPages={1} />
         </div>
     );
 };
