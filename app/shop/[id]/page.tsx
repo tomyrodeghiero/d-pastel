@@ -142,8 +142,8 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
                                     <span className='text-gray-500 font-family-jost'>{stock > 0 ? "Disponible ahora" : "Agotado"}</span>
                                 </div>
                                 <div className="flex text-gray-900">
-                                    <span className="font-medium w-32">Colores</span>
-                                    <span className='text-gray-500 font-family-jost'>http://bibliofe.com</span>
+                                    <span className="font-medium w-32">Tienda</span>
+                                    <span className='text-gray-500 font-family-jost'>artedpastel.com</span>
                                 </div>
                             </div>
                         </div>
@@ -290,9 +290,9 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
 
                 <div data-aos="fade-up" className='relative group mb-16 lg:mb-24 px-5 lg:px-0'>
                     <img src={product?.mainImageUrl} alt="Descripción" className='w-full h-[25rem] lg:h-[50rem] object-cover rounded-xl transition duration-500 ease-in-out transform group-hover:scale-105' />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
+                    {/* <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
                         <img src={ZOOM_IMAGE} alt="Zoom" className="w-40 transition-transform duration-700 ease-in-out transform translate-y-full group-hover:translate-y-0" />
-                    </div>
+                    </div> */}
                 </div>
 
                 <ToastContainer

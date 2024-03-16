@@ -12,7 +12,6 @@ export default function Home() {
       <Services />
       <Contact />
       <Gallery />
-      <Stats />
       <Newsletter />
     </>
   );

@@ -5,23 +5,63 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { useRouter } from "next/navigation";
-import { ARGENTINA, CLOSE_MENU, DELIVERY_BOX, DROP_RIGHT, D_PASTEL_LOGOTYPE, EMPTY_CART, HISTORY, HOME, MENU, SEARCH, SHOPPING_CART, WHATSAPP_CART } from "@/utils/constants/assets";
+import { ARGENTINA, ARROW_CIRCLE, ARROW_RIGHT, CLOSE_MENU, DELIVERY_BOX, DROP_RIGHT, D_PASTEL_LOGOTYPE, EMPTY_CART, HISTORY, HOME, HOW_TO_BUY, MENU, SEARCH, SHOPPING_CART, WHATSAPP_CART } from "@/utils/constants/assets";
 import { useCart } from "@/context/CartContext";
 import { PHONE_NUMBER } from "@/utils/constants/social-media";
 
 export default function Navbar() {
     const [additionalMessage, setAdditionalMessage] = useState<any>("");
+    const [discountCode, setDiscountCode] = useState("");
+    const [discountPercentage, setDiscountPercentage] = useState(0);
+    const [isDiscountApplied, setIsDiscountApplied] = useState(false);
+    const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
+    const { cart, removeFromCart } = useCart();
+
+    const applyDiscount = () => {
+        if (discountCode === "DESCUENTO10" && !isDiscountApplied && cart.length > 0) {
+            setIsDiscountApplied(true);
+            setDiscountPercentage(10);
+        } else {
+            alert("Código inválido, ya aplicado o carrito vacío");
+        }
+    };
+
+    // Calcular el total con descuento
+    const calculateTotalWithDiscount = (cartItems: any) => {
+        const total = cartItems.reduce((total: any, currentItem: any) => total + currentItem.price * currentItem.quantity, 0);
+        const discountValue = (total * discountPercentage) / 100; // Calcula el valor del descuento
+        return total - discountValue; // Resta el valor del descuento del total
+    };
+
+    // Luego, usa esta función para calcular el total con descuento solo si el descuento ha sido aplicado
+    let totalWithDiscount = 0;
+    if (isDiscountApplied) {
+        totalWithDiscount = calculateTotalWithDiscount(cart);
+    }
+
+
 
     const generateWhatsAppLink = (cartItems: any, additionalMessage = "") => {
         let baseURL = `https://wa.me/${PHONE_NUMBER}`;
-        let message = "*Hola!* Me gustaría realizar el siguiente pedido:\n\n";
+        let message = "Hola! Me gustaría realizar el siguiente pedido:\n\n";
+
+        let total = cartItems.reduce((acc: any, item: any) => acc + item.price * item.quantity, 0);
+        let discountValue = isDiscountApplied ? (total * discountPercentage) / 100 : 0;
+        let totalWithDiscountValue = total - discountValue;
 
         cartItems.forEach((item: any, index: number) => {
             message += `${index + 1}. *Producto:* ${item.name}, *Cantidad:* ${item.quantity}, *Precio:* $${item.price}\n`;
         });
 
+        message += `\n*Total:* $${total.toFixed(2)}`;
+
+        if (isDiscountApplied) {
+            message += `\n*Descuento (${discountPercentage}%):* -$${discountValue.toFixed(2)}`;
+            message += `\n*Total con Descuento:* $${totalWithDiscountValue.toFixed(2)}`;
+        }
+
         if (additionalMessage.trim() !== "") {
-            message += `\n*Mensaje adicional:* ${additionalMessage}`;
+            message += `\n\n*Mensaje adicional:* ${additionalMessage}`;
         }
 
         message = encodeURIComponent(message);
@@ -29,17 +69,8 @@ export default function Navbar() {
         return `${baseURL}?text=${message}`;
     };
 
-
-
-    const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
-    const { cart, removeFromCart } = useCart();
-
     const toggleCartDrawer = () => {
-        if (cartDrawerOpen) {
-            setCartDrawerOpen(false);
-        } else {
-            setCartDrawerOpen(true);
-        }
+        setCartDrawerOpen(!cartDrawerOpen);
     };
 
     const router = useRouter();
@@ -70,11 +101,10 @@ export default function Navbar() {
 
     const handleLinkClick = (e: any, href: string) => {
         e.preventDefault();
-
         if (isMobile) {
             setIsOpen(false);
         }
-
+        setCartDrawerOpen(false);
         router.push(href);
     };
 
@@ -89,10 +119,27 @@ export default function Navbar() {
         }
     }, [isOpen]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setMobile(window.innerWidth < 768);
+        };
+
+        if (typeof window !== "undefined") {
+            window.addEventListener("resize", handleResize);
+            // Establece overflow a "hidden" si el menú o el carrito están abiertos, de lo contrario a "unset"
+            document.body.style.overflow = isOpen || cartDrawerOpen ? "hidden" : "unset";
+        }
+
+        // Limpiar el event listener cuando el componente se desmonte o cuando isOpen/cartDrawerOpen cambien
+        return () => window.removeEventListener("resize", handleResize);
+    }, [isOpen, cartDrawerOpen]); // Agregar cartDrawerOpen a las dependencias
+
+
     if (isMobile) {
         return (
             <nav className="navbar flex flex-wrap justify-between items-center py-2 lg:py-5 px-4 lg:hidden relative z-50">
                 <Link href="/">
+                    <img src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" className="h-20" />
                 </Link>
 
                 {!isOpen && (
@@ -121,6 +168,7 @@ export default function Navbar() {
                     <div>
                         <div className="flex justify-between items-center">
                             <Link href="/">
+                                <img src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" className="h-20" />
                             </Link>
                             <div className="flex items-center gap-4">
                                 <div className="relative cursor-pointer mt-[-0.3rem] mr-3">
@@ -181,6 +229,20 @@ export default function Navbar() {
                                 </div>
                                 <div
                                     className="flex justify-between border-b border-gray-400 py-7 items-center"
+                                    onClick={(event) => handleLinkClick(event, "/how-to-buy")}
+                                >
+                                    <div className="flex gap-4">
+                                        <img className="h-6 cursor-pointer" src={HOW_TO_BUY} alt="About" />
+                                        <h2 className="text-xl">¿Cómo comprar?</h2>
+                                    </div>
+                                    <img
+                                        className="h-4 cursor-pointer"
+                                        src={DROP_RIGHT}
+                                        alt="Drop right"
+                                    />
+                                </div>
+                                <div
+                                    className="flex justify-between border-b border-gray-400 py-7 items-center"
                                     onClick={(event) => handleLinkClick(event, "/about")}
                                 >
                                     <div className="flex gap-4">
@@ -208,9 +270,9 @@ export default function Navbar() {
                 {cartDrawerOpen && (
                     <>
                         <div className="overlay" onClick={toggleCartDrawer}></div>
-                        <div className="absolute bottom-0 z-50 border-l border-black font-family-jost top-0 right-0 w-[90%] h-screen shadow-lg bg-white overflow-y-auto">
-                            <div className="relative h-screen">
-                                <div className="relative h-screen">
+                        <div className="fixed z-50 border-l border-black font-family-jost top-0 right-0 w-[90%] h-full shadow-lg bg-white overflow-y-auto">
+                            <div className="relative h-full">
+                                <div className="relative h-full">
                                     <div className="flex justify-between items-center border-b p-4">
                                         <h2 className="text-xl font-medium">Carrito de Compras</h2>
                                         <img
@@ -281,7 +343,7 @@ export default function Navbar() {
                                     </div>}
 
                                     <Link
-                                        href={generateWhatsAppLink(cart, additionalMessage)}
+                                        href={generateWhatsAppLink(cart)}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="w-full cursor-pointer flex gap-3 justify-center items-center absolute bottom-0 bg-green-700 text-white py-4"
@@ -319,12 +381,15 @@ export default function Navbar() {
                 <Link href="/about" className="navlink">
                     Nosotros
                 </Link>
+                <Link href="/how-to-buy" className="navlink">
+                    Cómo comprar
+                </Link>
                 <Link href="/contact" className="navlink">
                     Contacto
                 </Link>
 
                 <div className="space-x-5 flex items-center">
-                    <img src={SEARCH} alt="Search" onClick={() => setSearchOpen(true)} className="h-5 cursor-pointer" />
+                    {/* <img src={SEARCH} alt="Search" onClick={() => setSearchOpen(true)} className="h-5 cursor-pointer" /> */}
 
                     <div className="relative cursor-pointer">
                         <img
@@ -380,7 +445,7 @@ export default function Navbar() {
             {cartDrawerOpen && (
                 <>
                     <div className="overlay" onClick={toggleCartDrawer}></div>
-                    <div className="absolute bottom-0 z-50 border-l border-black font-family-jost top-0 right-0 w-[28rem] h-screen shadow-lg bg-white overflow-y-auto">
+                    <div className="fixed bottom-0 z-50 border-l border-black font-family-jost top-0 right-0 w-[28rem] h-screen shadow-lg bg-white overflow-y-auto">
                         <div className="relative h-screen">
                             <div className="relative h-screen">
                                 <div className="flex justify-between items-center border-b p-4">
@@ -420,6 +485,19 @@ export default function Navbar() {
                                         </span>
                                     </div>
 
+                                    {isDiscountApplied && (
+                                        <>
+                                            <div className="flex justify-between items-center py-4">
+                                                <span className="text-lg">Descuento (10%)</span>
+                                                <span className="text-lg font-bold">-${((cart.reduce((total: any, item: any) => total + item.price * item.quantity, 0) * discountPercentage) / 100).toFixed(2)}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center border-t py-4">
+                                                <span className="text-lg">Total con Descuento</span>
+                                                <span className="text-lg font-bold">${totalWithDiscount.toFixed(2)}</span>
+                                            </div>
+                                        </>
+                                    )}
+
                                     <div className="my-4">
                                         <label htmlFor="additionalMessage" className="block mb-2 text-sm font-medium text-gray-900">Mensaje adicional antes de la compra</label>
                                         <textarea
@@ -452,6 +530,24 @@ export default function Navbar() {
                                     </div>
                                 </div>}
 
+                                {/* Input para el cupón de descuento */}
+                                {cart.length > 0 && <div className="flex px-4">
+                                    <input
+                                        type="text"
+                                        className="p-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-l-lg flex-1"
+                                        placeholder="Cupón de Descuento"
+                                        value={discountCode}
+                                        onChange={(e) => setDiscountCode(e.target.value)}
+                                    />
+                                    <button
+                                        onClick={applyDiscount}
+                                        className="bg-black text-white px-6 py-2 rounded-r-lg border-t border-b border-r border-gray-300"
+                                    >
+                                        Aplicar
+                                    </button>
+                                </div>}
+
+
                                 <Link
                                     href={generateWhatsAppLink(cart)}
                                     target="_blank"
@@ -470,7 +566,8 @@ export default function Navbar() {
                         </div>
                     </div>
                 </>
-            )}
-        </nav>
+            )
+            }
+        </nav >
     );
 }

@@ -20,11 +20,11 @@ const Hero = () => {
                     <main className="px-4 sm:px-6 lg:px-8">
                         <div className="sm:text-center lg:text-left">
                             <h2 className="text-5xl md:text-6xl pt-4 lg:pt-16 tracking-tight text-gray-900 sm:text-5xl " data-aos="fade-up">
-                                <span>Iluminando el Arte <br /></span>
-                                <span>de Vivir con Estilo</span>
+                                <span>El Arte de Vivir<br /></span>
+                                <span>Con Estilo</span>
                             </h2>
-                            <p className="hero-subtitle font-medium uppercase text-lg tracking-widest mt-1 text-gray-500" data-aos="fade-up" data-aos-delay="100">
-                                Diseño de Interiores
+                            <p className="hero-subtitle uppercase font-medium text-lg tracking-widest mt-1 text-gray-500" data-aos="fade-up" data-aos-delay="100">
+                                Irene Arias - Diseñadora
                             </p>
                             <Link href="/shop" className='flex lg:inline-flex justify-center' data-aos="fade-up" data-aos-delay="200">
                                 <img

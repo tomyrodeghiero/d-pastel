@@ -37,17 +37,17 @@ const ContactPage = () => {
                             Inspirada por la belleza y la funcionalidad, Irene Arias trae una perspectiva única al mundo del diseño de interiores. Con un enfoque en la creación de espacios que no solo son estéticamente agradables sino también profundamente personales, Irene y su equipo en D-pastel se dedican a transformar cualquier ambiente en un refugio de inspiración y confort.
                         </p>
                         <div className="hidden lg:flex flex-col mt-6 space-y-4">
-                            <Link href="mailto:d-pastel@gmail.com" className="text-lg flex gap-4 font-family-jost items-center text-gray-500">
+                            <Link href="mailto:infod.pastel@gmail.com" className="text-lg flex gap-4 font-family-jost items-center text-gray-500">
                                 <img src={EMAIL} alt="E-mail" className='h-10' />
-                                d-pastel@gmail.com
+                                infod.pastel@gmail.com
                             </Link>
-                            <div onClick={handleClickToWhatsApp} className="text-lg flex gap-4 font-family-jost items-center text-gray-500">
+                            <div onClick={handleClickToWhatsApp} className="text-lg cursor-pointer flex gap-4 font-family-jost items-center text-gray-500">
                                 <img src={PHONE} alt="Phone" className='h-10' />
                                 +54 9 11 4091-9655
                             </div>
                             <div onClick={handleClickToWhatsApp} className="text-lg flex gap-4 font-family-jost items-center text-gray-500">
                                 <img src={WORLD} alt="World" className='h-10' />
-                                www.d-pastel.com
+                                https://www.artedpastel.com
                             </div>
                         </div>
                         <div className="hidden lg:flex font-family-jost items-center mt-6">

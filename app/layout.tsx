@@ -9,7 +9,7 @@ import { CartProvider } from "@/context/CartContext";
 
 export const metadata: Metadata = {
   title: "D-pastel | Decoración de Interiores",
-  description: "Irene Arias - Diseñadora especializada en decoración de interiores. Shop 24/7 con envíos a todo el país. Ventas al por mayor y menor. Contacto: d-pastel@gmail.com. ¡Explora nuestro catálogo online y realiza tu pedido!",
+  description: "Irene Arias - Diseñadora especializada en decoración de interiores. Shop 24/7 con envíos a todo el país. Ventas al por mayor y menor. Contacto: infod.pastel@gmail.com. ¡Explora nuestro catálogo online y realiza tu pedido!",
 };
 
 export default function RootLayout({

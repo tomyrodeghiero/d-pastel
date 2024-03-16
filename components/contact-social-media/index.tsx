@@ -33,13 +33,13 @@ const ContactSocialMedia = () => {
             <h2 className="text-3xl lg:text-4xl text-gray-900 text-center mb-7">Amamos conocer nuevas personas<br />para iluminar sus espacios</h2>
 
             <div className='flex flex-col lg:flex-row w-full p-4 lg:p-0'>
-                <div className='w-full lg:w-2/5 h-auto text-xl order-last lg:order-none'>
+                <div className='w-full lg:w-3/5 h-auto text-xl order-last lg:order-none'>
                     <div className='h-full items-center'>
                         <div className="space-y-4 bg-orange-100 py-8 mt-7 lg:mt-0 flex px-2 h-full items-center rounded-2xl">
                             <div className="flex flex-col space-y-4 items-center">
-                                <Link href="mailto:d-pastel@gmail.com" className="text-lg flex gap-4 w-full pl-4 lg:pl-8 font-family-jost items-center text-gray-500">
+                                <Link href="mailto:infod.pastel@gmail.com" className="text-lg flex gap-4 w-full pl-4 lg:pl-8 font-family-jost items-center text-gray-500">
                                     <img src={EMAIL_WHITE} alt="E-mail" className='h-10' />
-                                    d-pastel@gmail.com
+                                    infod.pastel@gmail.com
                                 </Link>
                                 <div onClick={handleClickToWhatsApp} className="text-lg flex gap-4 w-full pl-4 lg:pl-8 font-family-jost items-center text-gray-500">
                                     <img src={PHONE_WHITE} alt="Phone" className='h-10' />
@@ -47,7 +47,7 @@ const ContactSocialMedia = () => {
                                 </div>
                                 <div onClick={handleClickToWhatsApp} className="text-lg flex gap-4 w-full pl-4 lg:pl-8 font-family-jost items-center text-gray-500">
                                     <img src={WORLD_WHITE} alt="World" className='h-10' />
-                                    www.d-pastel.com
+                                    https://www.artedpastel.com
                                 </div>
                                 <div className='flex flex-start pl-4 lg:pl-8 pt-4 w-full'>
                                     <Link href={FACEBOOK_URL} target='_blank'>
