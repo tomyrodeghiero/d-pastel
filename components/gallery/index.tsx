@@ -56,7 +56,6 @@ const Gallery = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            console.log("data", data)
 
             const transformedProducts = data.products
                 .filter((product: any) => product.username === "dpastel")

@@ -1,4 +1,3 @@
-// Importaciones de React y Next.js
 import { NAVIGATE, NO_RESULTS } from '@/utils/constants/assets';
 import { CATEGORIES } from '@/utils/constants/constants';
 import { formatPriceARS } from '@/utils/functions';
@@ -40,7 +39,6 @@ const GalleryItem = ({ src, title, id, category, lowestPrice }: any) => {
     );
 };
 
-// Componente de React para la galería completa
 const GalleryShop = () => {
     const [activeTab, setActiveTab] = useState(null);
     const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState(true);
@@ -66,14 +64,14 @@ const GalleryShop = () => {
         if (activeCategory && activeCategory.name === tab.name) {
             setActiveCategory(null);
             setActiveTab(null);
-            setActiveSubcategory('Todas'); // Restablece la subcategoría a 'Todas'
+            setActiveSubcategory('Todas');
         } else {
             setActiveTab(tab);
             setActiveCategory(tab);
             setIsAutoScrollEnabled(false); setActiveCategory(tab);
-            setActiveSubcategory('Todas'); // Restablece la subcategoría a 'Todas'
+            setActiveSubcategory('Todas');
         }
-        setIsAutoScrollEnabled(false); // Desactiva el auto-scroll al seleccionar una categoría
+        setIsAutoScrollEnabled(false);
     };
 
     const [products, setProducts] = useState([]);
@@ -128,7 +126,6 @@ const GalleryShop = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            console.log("data", data)
 
             const transformedProducts = data.products
                 .filter((product: any) => product.username === "dpastel")
@@ -164,13 +161,8 @@ const GalleryShop = () => {
 
     const filteredProducts = useMemo(() => {
         if (!activeCategory) {
-            // Si no hay una categoría activa, devuelve todos los productos de 'dpastel'
             return products;
         } else {
-            console.log("activeCategory", activeCategory.name);
-            console.log("activeSubcategory", activeSubcategory);
-            console.log("product", products);
-            // Aplica el filtrado por categoría y subcategoría si hay una categoría activa
             return products.filter((product: any) => {
                 const matchesCategory = activeCategory?.name === product.category;
                 const matchesSubcategory = activeSubcategory === 'Todas' || product.subcategory === activeSubcategory;
@@ -179,18 +171,14 @@ const GalleryShop = () => {
         }
     }, [products, activeCategory, activeSubcategory]);
 
-
-    // Agrega este efecto para cargar productos al montar y al restablecer
     useEffect(() => {
         getProducts();
-    }, [activeCategory, activeSubcategory]); // Agrega dependencias si es necesario
+    }, [activeCategory, activeSubcategory]);
 
-    // Función para restablecer la búsqueda
     const resetSearch = () => {
         setActiveCategory(null);
         setActiveTab(null);
-        setActiveSubcategory('Todas'); // O el valor inicial que prefieras
-        // Aquí puedes llamar a getProducts si quieres recargar los productos al restablecer
+        setActiveSubcategory('Todas');
         getProducts();
     };
 

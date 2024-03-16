@@ -80,7 +80,6 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
             }
 
             const productDB = await response.json();
-            console.log("productDB", productDB)
             setProduct(productDB);
             setStock(productDB.stock);
 

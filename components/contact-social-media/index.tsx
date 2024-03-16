@@ -14,16 +14,12 @@ const ContactSocialMedia = () => {
     const handleSubmit = (event: any) => {
         event.preventDefault();
 
-        // Construye el mensaje
         const whatsappMessage = `Hola! Mi nombre es ${username}. Me pongo en contacto por el motivo de ${reason}. ${message}`;
 
-        // Codifica el mensaje para URL
         const encodedMessage = encodeURIComponent(whatsappMessage);
 
-        // Cambia el número al que quieras enviar el mensaje
         const phoneNumber = '5491140919655';
 
-        // Abre el enlace de WhatsApp
         window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
     };
 
