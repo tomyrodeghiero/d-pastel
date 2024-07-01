@@ -22,6 +22,7 @@ const ContactPage = () => {
                 background={BG_CONTACT}
                 title="Contáctanos"
                 subtitle="Inicio - Contacto"
+                focusPosition='center'
             />
             <div className='max-w-5xl mx-auto'>
                 <div className='flex flex-col p-4 lg:p-0 lg:pt-16 lg:flex-row gap-5 lg:py-14'>

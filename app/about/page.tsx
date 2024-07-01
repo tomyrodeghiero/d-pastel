@@ -12,7 +12,7 @@ const AboutPage = () => {
                 background={BG_ABOUT}
                 title="Sobre Nosotros"
                 subtitle="Inicio - Nosotros"
-                focusPosition='bottom'
+                focusPosition='top'
             />
             <QuoteCard />
             <div className='px-5'>
