@@ -55,7 +55,6 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
         );
     };
 
-
     async function getProductID(): Promise<any> {
         const requestOptions = {
             method: "GET",
@@ -80,6 +79,20 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
             }
 
             const productDB = await response.json();
+
+            if (productDB.mainImageUrl && productDB.mainImageUrl.startsWith('blob:')) {
+                try {
+                    const response = await fetch(productDB.mainImageUrl);
+                    const blob = await response.blob();
+                    productDB.mainImageUrl = URL.createObjectURL(blob);
+                } catch (error) {
+                    console.error("Error al convertir blob URL:", error);
+                }
+            }
+
+            setProduct(productDB);
+            setStock(productDB.stock);
+
             setProduct(productDB);
             setStock(productDB.stock);
 
@@ -97,7 +110,6 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
                         return JSON.parse(color);
                     } catch (e) {
                         console.error("Failed to parse color:", color, e);
-                        // Handle the error or return the original value
                         return color;
                     }
                 });
@@ -113,6 +125,12 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
 
     useEffect(() => {
         getProductID();
+
+        return () => {
+            if (product && product.mainImageUrl && product.mainImageUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(product.mainImageUrl);
+            }
+        };
     }, []);
 
     return (
@@ -238,9 +256,7 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
                                 </div>
                                 <button
                                     onClick={() => {
-                                        // Check if color options are available and selected
                                         const isColorSelected = selectedColor && selectedColor.hex ? true : false;
-                                        // Check if size (measure) options are available and selected
                                         const isSizeSelected = selectedMeasure ? true : false;
 
                                         if (isColorSelected && isSizeSelected) {
@@ -251,7 +267,7 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
                                                 product.mainImageUrl,
                                                 quantity,
                                                 selectedMeasure,
-                                                selectedColor.name, // Assuming selectedColor object has a name property
+                                                selectedColor.name,
                                                 selectedMeasure
                                             );
                                             setProductAdded(true);
@@ -288,10 +304,11 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
                 </div>
 
                 <div data-aos="fade-up" className='relative group mb-16 lg:mb-24 px-5 lg:px-0'>
-                    <img src={product?.mainImageUrl} alt="Descripción" className='w-full h-[25rem] lg:h-[50rem] object-cover rounded-xl transition duration-500 ease-in-out transform group-hover:scale-105' />
-                    {/* <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
-                        <img src={ZOOM_IMAGE} alt="Zoom" className="w-40 transition-transform duration-700 ease-in-out transform translate-y-full group-hover:translate-y-0" />
-                    </div> */}
+                    <img
+                        src={product?.mainImageUrl}
+                        alt="Descripción"
+                        className='w-full h-[25rem] lg:h-[50rem] object-cover rounded-xl transition duration-500 ease-in-out transform group-hover:scale-105'
+                    />
                 </div>
 
                 <ToastContainer

@@ -50,7 +50,7 @@ export default function Navbar() {
         let totalWithDiscountValue = total - discountValue;
 
         cartItems.forEach((item: any, index: number) => {
-            message += `${index + 1}. *Producto:* ${item.name}, *Cantidad:* ${item.quantity}, *Precio:* $${item.price}\n`;
+            message += `${index + 1}. *Producto:* ${item.name}, ${item.quantity}, *Color:* ${item.color}, Medida:* ${item.measure}, *Cantidad:*, *Precio:* $${item.price}\n`;
         });
 
         message += `\n*Total:* $${total.toFixed(2)}`;
@@ -144,12 +144,11 @@ export default function Navbar() {
 
                 {!isOpen && (
                     <div className="flex gap-4 items-center">
-                        <div className="relative cursor-pointer">
+                        <div className="relative cursor-pointer" onClick={toggleCartDrawer}>
                             <img
                                 className="h-6"
                                 src={SHOPPING_CART}
                                 alt="Shopping cart"
-                                onClick={toggleCartDrawer}
                             />
                             {cart.length > 0 && (
                                 <div className="absolute top-[0.7rem] left-[0.7rem] text-[0.9rem] h-5 w-5 rounded-full border border-yellow-900 bg-gold-500 flex items-center justify-center text-white shadow">
@@ -171,12 +170,11 @@ export default function Navbar() {
                                 <img src={D_PASTEL_LOGOTYPE} alt="Logo" data-aos="fade-right" className="h-20" />
                             </Link>
                             <div className="flex items-center gap-4">
-                                <div className="relative cursor-pointer mt-[-0.3rem] mr-3">
+                                <div className="relative cursor-pointer mt-[-0.3rem] mr-3" onClick={toggleCartDrawer}>
                                     <img
                                         className="h-6"
                                         src={SHOPPING_CART}
                                         alt="Shopping cart"
-                                        onClick={toggleCartDrawer}
                                     />
                                     {cart.length > 0 && (
                                         <div className="absolute top-[0.7rem] left-[0.7rem] text-[0.9rem] h-5 w-5 rounded-full border border-yellow-900 bg-gold-500 flex items-center justify-center text-white shadow">
@@ -273,13 +271,12 @@ export default function Navbar() {
                         <div className="fixed z-50 border-l border-black font-family-jost top-0 right-0 w-[90%] h-full shadow-lg bg-white overflow-y-auto">
                             <div className="relative h-full">
                                 <div className="relative h-full">
-                                    <div className="flex justify-between items-center border-b p-4">
+                                    <div className="flex justify-between items-center border-b p-4" onClick={toggleCartDrawer}>
                                         <h2 className="text-xl font-medium">Carrito de Compras</h2>
                                         <img
                                             className="h-4 cursor-pointer"
                                             src={CLOSE_MENU}
                                             alt="Close Menu"
-                                            onClick={toggleCartDrawer}
                                         />
                                     </div>
 
@@ -343,7 +340,7 @@ export default function Navbar() {
                                     </div>}
 
                                     <Link
-                                        href={generateWhatsAppLink(cart)}
+                                        href={generateWhatsAppLink(cart, additionalMessage)}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="w-full cursor-pointer flex gap-3 justify-center items-center absolute bottom-0 bg-green-700 text-white py-4"
@@ -389,14 +386,11 @@ export default function Navbar() {
                 </Link>
 
                 <div className="space-x-5 flex items-center">
-                    {/* <img src={SEARCH} alt="Search" onClick={() => setSearchOpen(true)} className="h-5 cursor-pointer" /> */}
-
-                    <div className="relative cursor-pointer">
+                    <div className="relative cursor-pointer" onClick={toggleCartDrawer}>
                         <img
                             className="h-6"
                             src={SHOPPING_CART}
                             alt="Shopping cart"
-                            onClick={toggleCartDrawer}
                         />
                         {cart.length > 0 && (
                             <div className="absolute top-[0.7rem] left-[0.7rem] text-[0.9rem] h-5 w-5 rounded-full border border-yellow-900 bg-gold-500 flex items-center justify-center text-white shadow">
@@ -547,9 +541,8 @@ export default function Navbar() {
                                     </button>
                                 </div>}
 
-
                                 <Link
-                                    href={generateWhatsAppLink(cart)}
+                                    href={generateWhatsAppLink(cart, additionalMessage)}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-full cursor-pointer flex gap-3 justify-center items-center absolute bottom-0 bg-green-700 text-white py-4"
