@@ -40,7 +40,7 @@ const GalleryItem = ({ src, title, id, category, lowestPrice }: any) => {
 };
 
 const GalleryShop = () => {
-    const [activeTab, setActiveTab] = useState(null);
+    const [activeTab, setActiveTab] = useState<any>(null);
     const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState(true);
     const [activeCategory, setActiveCategory] = useState<any>(null);
     const [activeSubcategory, setActiveSubcategory] = useState('Todas');
@@ -269,7 +269,7 @@ const GalleryShop = () => {
                     {CATEGORIES.map(tab => (
                         <button
                             key={tab.name}
-                            className={`flex-none lg:w-1/3 lg:flex-grow text-lg font-medium py-2 lg:py-3 px-4 rounded-xl ${activeTab === tab ? 'bg-gold-500 text-white' : 'text-gray-900'} focus:outline-none transition-colors duration-150 ease-in-out font-family-jost`}
+                            className={`flex-none lg:w-1/3 lg:flex-grow text-lg font-medium py-2 lg:py-3 px-4 rounded-xl ${activeTab?.name === tab.name ? 'bg-gold-500 text-white' : 'text-gray-900'} focus:outline-none transition-colors duration-150 ease-in-out font-family-jost`}
                             onClick={() => handleTabClick(tab)}
                         >
                             {tab.name}
