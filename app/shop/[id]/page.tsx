@@ -20,26 +20,9 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
     const [selectedColor, setSelectedColor] = useState<any>({});
     const [quantity, setQuantity] = useState(1);
     const { addToCart } = useCart();
+
     const decrement = () => quantity > 1 && setQuantity(quantity - 1);
-    const increment = () => {
-        if (quantity < stock) {
-            setQuantity(quantity + 1);
-        } else {
-            toast.warning(
-                `No hay más stock de este producto. Solo quedan ${stock} unidades.`,
-                {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                }
-            );
-        }
-    };
+    const increment = () => { setQuantity(quantity + 1); };
 
     const showAddedToCart = () => {
         return toast.success(

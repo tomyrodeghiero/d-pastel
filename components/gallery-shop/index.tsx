@@ -65,10 +65,11 @@ const GalleryShop = () => {
             setActiveCategory(null);
             setActiveTab(null);
             setActiveSubcategory('Todas');
+            localStorage.removeItem('activeCategory');
+            localStorage.removeItem('activeSubcategory');
         } else {
             setActiveTab(tab);
             setActiveCategory(tab);
-            setIsAutoScrollEnabled(false); setActiveCategory(tab);
             setActiveSubcategory('Todas');
         }
         setIsAutoScrollEnabled(false);
@@ -175,10 +176,34 @@ const GalleryShop = () => {
         getProducts();
     }, [activeCategory, activeSubcategory]);
 
+    useEffect(() => {
+        const savedCategory = localStorage.getItem('activeCategory');
+        const savedSubcategory = localStorage.getItem('activeSubcategory');
+        if (savedCategory) {
+            const parsedCategory = JSON.parse(savedCategory);
+            setActiveCategory(parsedCategory);
+            setActiveTab(parsedCategory);
+        }
+        if (savedSubcategory) {
+            setActiveSubcategory(savedSubcategory);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (activeCategory) {
+            localStorage.setItem('activeCategory', JSON.stringify(activeCategory));
+        } else {
+            localStorage.removeItem('activeCategory');
+        }
+        localStorage.setItem('activeSubcategory', activeSubcategory);
+    }, [activeCategory, activeSubcategory]);
+
     const resetSearch = () => {
         setActiveCategory(null);
         setActiveTab(null);
         setActiveSubcategory('Todas');
+        localStorage.removeItem('activeCategory');
+        localStorage.removeItem('activeSubcategory');
         getProducts();
     };
 
