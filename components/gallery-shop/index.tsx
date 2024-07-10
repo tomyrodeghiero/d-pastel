@@ -44,6 +44,9 @@ const GalleryShop = () => {
     const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState(true);
     const [activeCategory, setActiveCategory] = useState<any>(null);
     const [activeSubcategory, setActiveSubcategory] = useState('Todas');
+    const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
     const tabsRef = useRef<any>(null);
 
     useEffect(() => {
@@ -74,9 +77,6 @@ const GalleryShop = () => {
         }
         setIsAutoScrollEnabled(false);
     };
-
-    const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
 
     const handleSubcategoryClick = (subcategory: any) => {
         setActiveSubcategory(subcategory);
@@ -192,8 +192,10 @@ const GalleryShop = () => {
     useEffect(() => {
         if (activeCategory) {
             localStorage.setItem('activeCategory', JSON.stringify(activeCategory));
+            setActiveTab(activeCategory);
         } else {
             localStorage.removeItem('activeCategory');
+            setActiveTab(null);
         }
         localStorage.setItem('activeSubcategory', activeSubcategory);
     }, [activeCategory, activeSubcategory]);
