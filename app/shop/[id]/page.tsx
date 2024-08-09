@@ -1,9 +1,9 @@
 "use client";
 
 import ColorCircle from '@/components/color-circle';
-import { FormatText } from '@/components/format-text';
 import HeaderBackground from '@/components/header-background';
 import { useCart } from '@/context/CartContext';
+import { useProductContext } from '@/context/ProductContext';
 import { BG_SHOP_ID, FACEBOOK, GALLERY_SHOP_03, GALLERY_SHOP_04, GALLERY_SHOP_05, INSTAGRAM, STARS, ZOOM_IMAGE } from '@/utils/constants/assets';
 import { FACEBOOK_URL, INSTAGRAM_URL } from '@/utils/constants/social-media';
 import { formatPriceARS } from '@/utils/functions';
@@ -12,6 +12,8 @@ import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 const ProductPage = ({ params }: { params: { id: string } }) => {
+    const { setProductName } = useProductContext();
+
     const [productAdded, setProductAdded] = useState(false);
     const [stock, setStock] = useState<number>(1);
     const [product, setProduct] = useState<any>(null)
@@ -74,6 +76,7 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
             }
 
             setProduct(productDB);
+            setProductName(productDB?.name || null);
             setStock(productDB.stock);
 
             setProduct(productDB);
@@ -113,6 +116,8 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
             if (product && product.mainImageUrl && product.mainImageUrl.startsWith('blob:')) {
                 URL.revokeObjectURL(product.mainImageUrl);
             }
+
+            setProductName('');
         };
     }, []);
 

@@ -6,6 +6,7 @@ import WhatsApp from "../components/whatsapp";
 import "react-toastify/dist/ReactToastify.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { CartProvider } from "@/context/CartContext";
+import { ProductProvider } from "@/context/ProductContext";
 
 export const metadata: Metadata = {
   title: "D-pastel | Decoración de Interiores",
@@ -20,12 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <CartProvider>
-          <Navbar />
-          {children}
-          <WhatsApp />
-          <Footer />
-        </CartProvider>
+        <ProductProvider>
+          <CartProvider>
+            <Navbar />
+            {children}
+            <WhatsApp />
+            <Footer />
+          </CartProvider>
+        </ProductProvider>
       </body>
     </html>
   );

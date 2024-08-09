@@ -1,12 +1,17 @@
 "use client";
 
+import React from "react";
 import { WHATSAPP } from "@/utils/constants/assets";
 import { PHONE_NUMBER } from "@/utils/constants/social-media";
-import React from "react";
+import { useProductContext } from '@/context/ProductContext';
 
 const WhatsApp = () => {
-    const message =
-        "Hola, estoy interesado en un producto genial iluminación. ¿Podrían darme más información?";
+    const { productName } = useProductContext();
+
+    const defaultMessage = "Hola, estoy interesado en un producto de iluminación. ¿Podrían darme más información?";
+    const message = productName
+        ? `Hola, estoy interesado en el producto ${productName}. ¿Podrían darme más información?`
+        : defaultMessage;
 
     const handleClick = () => {
         window.open(
